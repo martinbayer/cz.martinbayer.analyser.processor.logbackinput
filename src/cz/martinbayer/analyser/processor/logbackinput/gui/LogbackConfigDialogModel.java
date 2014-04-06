@@ -15,6 +15,7 @@ public class LogbackConfigDialogModel extends ObservableModelObject {
 	public static final String PROPERTY_FILES_COUNT = "filesCount";
 	public static final String PROPERTY_FILES_SIZE = "filesSize";
 	public static final String PROPERTY_PATTERN = "pattern";
+	public static final String PROPERTY_DATE_TIME_FORMAT = "dateTimeFormat";
 
 	private String selectedDirectoryPath;
 	private List<String> selectedExtensions;
@@ -23,6 +24,7 @@ public class LogbackConfigDialogModel extends ObservableModelObject {
 	private int filesCount;
 	private long filesSize;
 	private String pattern;
+	private String dateTimeFormat;
 
 	public final String getSelectedDirectoryPath() {
 		return selectedDirectoryPath;
@@ -100,6 +102,15 @@ public class LogbackConfigDialogModel extends ObservableModelObject {
 	public final void setPattern(String pattern) {
 		firePropertyChange(PROPERTY_PATTERN, this.pattern,
 				this.pattern = pattern);
+	}
+
+	public final String getDateTimeFormat() {
+		return this.dateTimeFormat;
+	}
+
+	public final void setDateTimeFormat(String dateTimeFormat) {
+		firePropertyChange(PROPERTY_DATE_TIME_FORMAT, this.dateTimeFormat,
+				this.dateTimeFormat = dateTimeFormat);
 	}
 
 }

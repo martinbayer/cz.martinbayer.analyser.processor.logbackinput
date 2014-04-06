@@ -10,9 +10,12 @@ public class LogbackInputProcessor extends InputProcessor<ConcreteData> {
 
 	private File[] logFiles;
 	private String pattern;
+	private String dateTimeFormat;
+	private LogbackParserListener parserListener;
 
 	public LogbackInputProcessor() {
-
+		super();
+		parserListener = new LogbackParserListener(this, logData);
 	}
 
 	@Override
@@ -25,6 +28,9 @@ public class LogbackInputProcessor extends InputProcessor<ConcreteData> {
 	protected void read() {
 		LogBackHandler handler = LogBackHandler.getInstance(logFiles, pattern,
 				"UTF-8");
+		handler.doParse(parserListener);
+		System.out.println("size:"
+				+ parserListener.getData().getLogRecords().size());
 	}
 
 	/**
@@ -40,5 +46,21 @@ public class LogbackInputProcessor extends InputProcessor<ConcreteData> {
 
 	public final void setPattern(String pattern) {
 		this.pattern = pattern;
+	}
+
+	public final void setDateTimeFormat(String dateTimeFormat) {
+		this.dateTimeFormat = dateTimeFormat;
+	}
+
+	public final File[] getLogFiles() {
+		return logFiles;
+	}
+
+	public final String getPattern() {
+		return pattern;
+	}
+
+	public final String getDateTimeFormat() {
+		return dateTimeFormat;
 	}
 }

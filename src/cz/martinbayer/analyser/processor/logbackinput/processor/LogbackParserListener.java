@@ -1,9 +1,11 @@
 package cz.martinbayer.analyser.processor.logbackinput.processor;
 
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import cz.martinbayer.analyser.impl.ConcreteData;
 import cz.martinbayer.analyser.processors.model.ELogLevel;
+import cz.martinbayer.analyser.processors.model.XMLogData;
 import cz.martinbayer.logparser.logback.pattern.TypedPatternFactory;
 import cz.martinbayer.logparser.logic.ILogParserEvent;
 import cz.martinbayer.logparser.logic.ILogParserListener;
@@ -11,14 +13,21 @@ import cz.martinbayer.logparser.logic.LogParserPhase;
 
 public class LogbackParserListener implements ILogParserListener {
 	private ConcreteData object;
-	private List<ConcreteData> objects;
+	private XMLogData<ConcreteData> logData;
+	private LogbackInputProcessor inputProcessor;
+
+	public LogbackParserListener(LogbackInputProcessor inputProcessor,
+			XMLogData<ConcreteData> logData) {
+		this.inputProcessor = inputProcessor;
+		this.logData = logData;
+	}
 
 	@Override
 	public void parsed(ILogParserEvent event) {
 		if (event.getPhase() == LogParserPhase.START) {
 			object = new ConcreteData();
 		} else if (event.getPhase() == LogParserPhase.FINISH) {
-			objects.add(object);
+			logData.addLogRecord(object);
 			object = null;
 		} else {
 			if (object == null || event.getGroupName() == null) {
@@ -32,7 +41,16 @@ public class LogbackParserListener implements ILogParserListener {
 			case CONTEXT_NAME:
 				break;
 			case DATE_TIME_OF_EVENT:
-				object.setEventDateTime(event.getGroupValue());
+				if (inputProcessor.getDateTimeFormat() != null) {
+					try {
+						object.setEventDateTime(new SimpleDateFormat(
+								inputProcessor.getDateTimeFormat()).parse(event
+								.getGroupValue()));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 				break;
 			case EXCEPTION:
 				object.setErrorMessage(event.getGroupValue());
@@ -76,4 +94,7 @@ public class LogbackParserListener implements ILogParserListener {
 
 	}
 
+	public XMLogData<ConcreteData> getData() {
+		return logData;
+	}
 }

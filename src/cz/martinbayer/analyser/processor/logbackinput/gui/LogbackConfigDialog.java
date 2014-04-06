@@ -22,7 +22,6 @@ import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -34,13 +33,13 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import cz.martinbayer.analyser.processor.logbackinput.processor.LogbackInputProcLogic;
-import cz.martinbayer.e4.analyser.widgets.SWTUtils;
+import cz.martinbayer.utils.gui.SWTUtils;
 
 public class LogbackConfigDialog extends TitleAreaDialog {
 
 	private LogbackInputProcLogic logic;
-	private Label patternLabel;
-	private Text patternText;
+	private Label patternLabel, dateTimeFormatLabel;
+	private Text patternText, dateTimeFormatText;
 	private DirectoryDialog directoryDialog;
 	private SelectionAdapter directoryDialogSelection;
 	private Button chooseDirectoryBtn;
@@ -113,6 +112,21 @@ public class LogbackConfigDialog extends TitleAreaDialog {
 		patternText = new Text(container, SWT.BORDER);
 		patternText.setLayoutData(data);
 
+		data = new GridData();
+		data.horizontalSpan = 1;
+		data.horizontalAlignment = GridData.END;
+		dateTimeFormatLabel = new Label(container, SWT.NONE);
+		dateTimeFormatLabel.setText("Used date/time format:");
+		dateTimeFormatLabel.setLayoutData(data);
+
+		data = new GridData();
+		data.grabExcessHorizontalSpace = true;
+		data.horizontalSpan = 4;
+		data.horizontalAlignment = GridData.FILL;
+		dateTimeFormatText = new Text(container, SWT.BORDER);
+		dateTimeFormatText.setLayoutData(data);
+
+		data = new GridData();
 		data.horizontalSpan = 1;
 		data.horizontalAlignment = GridData.END;
 		chooseDirectoryLabel = new Label(container, SWT.NONE);
@@ -226,6 +240,13 @@ public class LogbackConfigDialog extends TitleAreaDialog {
 				LogbackConfigDialogModel.PROPERTY_PATTERN).observe(dialogModel);
 		ctx.bindValue(target, model);
 
+		/* create binding for date time format */
+		target = WidgetProperties.text(SWT.Modify).observe(dateTimeFormatText);
+		model = BeanProperties.value(LogbackConfigDialogModel.class,
+				LogbackConfigDialogModel.PROPERTY_DATE_TIME_FORMAT).observe(
+				dialogModel);
+		ctx.bindValue(target, model);
+
 		/* create binding for list with possible extensions */
 		IObservableList listTarget = ViewersObservables
 				.observeMultiPostSelection(possibleExtensionsList);
@@ -288,10 +309,10 @@ public class LogbackConfigDialog extends TitleAreaDialog {
 				});
 	}
 
-	@Override
-	protected Point getInitialSize() {
-		return new Point(600, 450);
-	}
+	// @Override
+	// protected Point getInitialSize() {
+	// return new Point(600, 450);
+	// }
 
 	@Override
 	protected void okPressed() {
@@ -299,6 +320,7 @@ public class LogbackConfigDialog extends TitleAreaDialog {
 			logic.setLogFiles(dialogModel.getSelectedFiles());
 		}
 		logic.setPattern(dialogModel.getPattern());
+		logic.setDateTimeFormat(dialogModel.getDateTimeFormat());
 		super.okPressed();
 	}
 

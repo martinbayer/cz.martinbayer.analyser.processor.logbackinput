@@ -25,4 +25,9 @@ public class LogbackInputProcLogic implements IProcessorLogic<ConcreteData> {
 	public void setPattern(String pattern) {
 		((LogbackInputProcessor) getProcessor()).setPattern(pattern);
 	}
+
+	public void setDateTimeFormat(String dateTimeFormat) {
+		((LogbackInputProcessor) getProcessor())
+				.setDateTimeFormat(dateTimeFormat);
+	}
 }
