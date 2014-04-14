@@ -3,7 +3,7 @@ package cz.martinbayer.analyser.processor.logbackinput.processor;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import cz.martinbayer.analyser.impl.ConcreteData;
+import cz.martinbayer.analyser.impl.ConcreteXMLog;
 import cz.martinbayer.analyser.processors.model.ELogLevel;
 import cz.martinbayer.analyser.processors.model.XMLogData;
 import cz.martinbayer.logparser.logback.pattern.TypedPatternFactory;
@@ -12,12 +12,12 @@ import cz.martinbayer.logparser.logic.ILogParserListener;
 import cz.martinbayer.logparser.logic.LogParserPhase;
 
 public class LogbackParserListener implements ILogParserListener {
-	private ConcreteData object;
-	private XMLogData<ConcreteData> logData;
+	private ConcreteXMLog object;
+	private XMLogData<ConcreteXMLog> logData;
 	private LogbackInputProcessor inputProcessor;
 
 	public LogbackParserListener(LogbackInputProcessor inputProcessor,
-			XMLogData<ConcreteData> logData) {
+			XMLogData<ConcreteXMLog> logData) {
 		this.inputProcessor = inputProcessor;
 		this.logData = logData;
 	}
@@ -25,7 +25,7 @@ public class LogbackParserListener implements ILogParserListener {
 	@Override
 	public void parsed(ILogParserEvent event) {
 		if (event.getPhase() == LogParserPhase.START) {
-			object = new ConcreteData();
+			object = new ConcreteXMLog();
 		} else if (event.getPhase() == LogParserPhase.FINISH) {
 			logData.addLogRecord(object);
 			object = null;
@@ -94,7 +94,7 @@ public class LogbackParserListener implements ILogParserListener {
 
 	}
 
-	public XMLogData<ConcreteData> getData() {
+	public XMLogData<ConcreteXMLog> getData() {
 		return logData;
 	}
 }

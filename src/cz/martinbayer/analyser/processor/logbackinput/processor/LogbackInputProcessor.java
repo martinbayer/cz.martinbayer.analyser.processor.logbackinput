@@ -2,26 +2,29 @@ package cz.martinbayer.analyser.processor.logbackinput.processor;
 
 import java.io.File;
 
-import cz.martinbayer.analyser.impl.ConcreteData;
+import cz.martinbayer.analyser.impl.ConcreteXMLog;
 import cz.martinbayer.analyser.processors.types.InputProcessor;
 import cz.martinbayer.logparser.logback.handler.LogBackHandler;
 
-public class LogbackInputProcessor extends InputProcessor<ConcreteData> {
+public class LogbackInputProcessor extends InputProcessor<ConcreteXMLog> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -358055025062680886L;
 	private File[] logFiles;
 	private String pattern;
 	private String dateTimeFormat;
-	private LogbackParserListener parserListener;
+	private transient LogbackParserListener parserListener;
 
 	public LogbackInputProcessor() {
 		super();
-		parserListener = new LogbackParserListener(this, logData);
+		init();
 	}
 
 	@Override
 	protected void process() {
-		// TODO Auto-generated method stub
-
+		// no need to do any operation against parsed data
 	}
 
 	@Override
@@ -62,5 +65,11 @@ public class LogbackInputProcessor extends InputProcessor<ConcreteData> {
 
 	public final String getDateTimeFormat() {
 		return dateTimeFormat;
+	}
+
+	@Override
+	public void init() {
+		super.init();
+		parserListener = new LogbackParserListener(this, logData);
 	}
 }

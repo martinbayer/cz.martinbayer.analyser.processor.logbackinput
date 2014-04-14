@@ -1,13 +1,19 @@
 package cz.martinbayer.analyser.processor.logbackinput.gui;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import cz.martinbayer.utils.model.ObservableModelObject;
 
-public class LogbackConfigDialogModel extends ObservableModelObject {
+public class LogbackConfigDialogModel extends ObservableModelObject implements
+		Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6279002328106622227L;
 	public static final String PROPERTY_SELECTED_DIRECTORY_PATH = "selectedDirectoryPath";
 	public static final String PROPERTY_SELECTED_EXTENSIONS = "selectedExtensions";
 	public static final String PROPERTY_SELECTED_FILES = "selectedFiles";

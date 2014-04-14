@@ -2,7 +2,7 @@ package cz.martinbayer.analyser.processor.logbackinput;
 
 import org.eclipse.swt.events.MouseEvent;
 
-import cz.martinbayer.analyser.impl.ConcreteData;
+import cz.martinbayer.analyser.impl.ConcreteXMLog;
 import cz.martinbayer.analyser.processor.logbackinput.paletteitem.LogbackInputPaletteItem;
 import cz.martinbayer.analyser.processor.logbackinput.processor.LogbackInputProcLogic;
 import cz.martinbayer.analyser.processors.IProcessorItemWrapper;
@@ -10,13 +10,13 @@ import cz.martinbayer.analyser.processors.IProcessorLogic;
 import cz.martinbayer.analyser.processors.IProcessorsPaletteItem;
 
 public class LogbackInputProcItemWrapper implements
-		IProcessorItemWrapper<ConcreteData> {
+		IProcessorItemWrapper<ConcreteXMLog> {
 
 	private LogbackInputProcLogic logic;
 	private LogbackInputPaletteItem item;
 
 	@Override
-	public IProcessorLogic<ConcreteData> getProcessorLogic() {
+	public IProcessorLogic<ConcreteXMLog> getProcessorLogic() {
 		if (logic == null) {
 			logic = new LogbackInputProcLogic();
 		}
@@ -38,7 +38,7 @@ public class LogbackInputProcItemWrapper implements
 	}
 
 	@Override
-	public IProcessorItemWrapper<ConcreteData> getInstance() {
+	public IProcessorItemWrapper<ConcreteXMLog> getInstance() {
 		return new LogbackInputProcItemWrapper();
 	}
 
