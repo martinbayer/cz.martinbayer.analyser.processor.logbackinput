@@ -5,6 +5,7 @@ import java.io.File;
 import cz.martinbayer.analyser.impl.ConcreteXMLog;
 import cz.martinbayer.analyser.processors.types.InputProcessor;
 import cz.martinbayer.logparser.logback.handler.LogBackHandler;
+import cz.martinbayer.utils.StringUtils;
 
 public class LogbackInputProcessor extends InputProcessor<ConcreteXMLog> {
 
@@ -71,5 +72,26 @@ public class LogbackInputProcessor extends InputProcessor<ConcreteXMLog> {
 	public void init() {
 		super.init();
 		parserListener = new LogbackParserListener(this, logData);
+	}
+
+	/**
+	 * validation of the processor properties
+	 */
+	@Override
+	protected StringBuffer isSubProcessorValid() {
+		StringBuffer sb = new StringBuffer();
+		if (StringUtils.isEmtpy(pattern)) {
+			sb.append("No pattern specified for processor. ");
+		}
+		if (StringUtils.isEmtpy(dateTimeFormat)) {
+			sb.append("No date time format specified for processor. ");
+		}
+		if (logFiles == null || logFiles.length == 0) {
+			sb.append("No log file selected. ");
+		}
+		if (sb.length() > 0) {
+			sb.insert(0, ": ").insert(0, getName());
+		}
+		return sb;
 	}
 }
