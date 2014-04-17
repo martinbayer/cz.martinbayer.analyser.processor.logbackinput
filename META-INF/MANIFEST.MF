@@ -6,7 +6,6 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: cz.martinbayer.analyser.processor.logbackinput.Activator
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: cz.martinbayer.analyser.impl,
- cz.martinbayer.logparser.logback.handler,
  javax.inject;version="1.0.0",
  org.osgi.framework;version="1.3.0"
 Bundle-ActivationPolicy: lazy

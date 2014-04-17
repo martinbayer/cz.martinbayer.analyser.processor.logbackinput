@@ -2,16 +2,16 @@ package cz.martinbayer.analyser.processor.logbackinput.processor;
 
 import java.io.File;
 
-import cz.martinbayer.analyser.impl.ConcreteXMLog;
+import cz.martinbayer.analyser.impl.ConcreteE4LogsisLog;
 import cz.martinbayer.analyser.processors.IProcessorLogic;
 import cz.martinbayer.analyser.processors.types.LogProcessor;
 
-public class LogbackInputProcLogic implements IProcessorLogic<ConcreteXMLog> {
+public class LogbackInputProcLogic implements IProcessorLogic<ConcreteE4LogsisLog> {
 
 	private LogbackInputProcessor processor;
 
 	@Override
-	public LogProcessor<ConcreteXMLog> getProcessor() {
+	public LogProcessor<ConcreteE4LogsisLog> getProcessor() {
 		if (processor == null) {
 			processor = new LogbackInputProcessor();
 		}

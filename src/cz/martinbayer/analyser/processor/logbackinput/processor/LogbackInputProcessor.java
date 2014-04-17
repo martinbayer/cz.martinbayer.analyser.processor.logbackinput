@@ -2,12 +2,12 @@ package cz.martinbayer.analyser.processor.logbackinput.processor;
 
 import java.io.File;
 
-import cz.martinbayer.analyser.impl.ConcreteXMLog;
+import cz.martinbayer.analyser.impl.ConcreteE4LogsisLog;
 import cz.martinbayer.analyser.processors.types.InputProcessor;
 import cz.martinbayer.logparser.logback.handler.LogBackHandler;
 import cz.martinbayer.utils.StringUtils;
 
-public class LogbackInputProcessor extends InputProcessor<ConcreteXMLog> {
+public class LogbackInputProcessor extends InputProcessor<ConcreteE4LogsisLog> {
 
 	/**
 	 * 
