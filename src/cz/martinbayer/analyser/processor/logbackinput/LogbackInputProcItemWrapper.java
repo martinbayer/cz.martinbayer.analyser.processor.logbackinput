@@ -1,5 +1,6 @@
 package cz.martinbayer.analyser.processor.logbackinput;
 
+import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.swt.events.MouseEvent;
 
 import cz.martinbayer.analyser.impl.ConcreteE4LogsisLog;
@@ -37,13 +38,18 @@ public class LogbackInputProcItemWrapper implements
 
 	@Override
 	public void mouseDoubleClicked(MouseEvent e) {
-		item.openDialog(logic);
+		item.openDialog((LogbackInputProcLogic) getProcessorLogic());
 
 	}
 
 	@Override
 	public IProcessorItemWrapper<ConcreteE4LogsisLog> getInstance() {
 		return new LogbackInputProcItemWrapper();
+	}
+
+	@Override
+	public void setContext(IEclipseContext ctx) {
+		Activator.setEclipseContext(ctx);
 	}
 
 }

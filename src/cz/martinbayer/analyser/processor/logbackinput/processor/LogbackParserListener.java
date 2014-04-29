@@ -4,9 +4,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import cz.martinbayer.analyser.impl.ConcreteE4LogsisLog;
-import cz.martinbayer.analyser.processors.model.ELogLevel;
 import cz.martinbayer.analyser.processors.model.E4LogsisLogData;
-import cz.martinbayer.logparser.logback.pattern.TypedPatternFactory;
+import cz.martinbayer.analyser.processors.model.ELogLevel;
+import cz.martinbayer.logparser.logback.mobile.types.DateTimePattern;
+import cz.martinbayer.logparser.logback.mobile.types.ExceptionPattern;
+import cz.martinbayer.logparser.logback.mobile.types.FilePattern;
+import cz.martinbayer.logparser.logback.mobile.types.LevelPattern;
+import cz.martinbayer.logparser.logback.mobile.types.LinePattern;
+import cz.martinbayer.logparser.logback.mobile.types.MessagePattern;
+import cz.martinbayer.logparser.logback.mobile.types.ThreadPattern;
 import cz.martinbayer.logparser.logic.ILogParserEvent;
 import cz.martinbayer.logparser.logic.ILogParserListener;
 import cz.martinbayer.logparser.logic.LogParserPhase;
@@ -34,13 +40,8 @@ public class LogbackParserListener implements ILogParserListener {
 				throw new NullPointerException("Log event haven't started yet");
 			}
 
-			switch (TypedPatternFactory.getConversionWordByGroupName(event
-					.getGroupName())) {
-			case CALLER_STACK:
-				break;
-			case CONTEXT_NAME:
-				break;
-			case DATE_TIME_OF_EVENT:
+			switch (event.getGroupName()) {
+			case DateTimePattern.GROUP_NAME:
 				if (inputProcessor.getDateTimeFormat() != null) {
 					try {
 						object.setEventDateTime(new SimpleDateFormat(
@@ -52,40 +53,23 @@ public class LogbackParserListener implements ILogParserListener {
 					}
 				}
 				break;
-			case EXCEPTION:
+			case ExceptionPattern.GROUP_NAME_EXCEPTION:
 				object.setErrorMessage(event.getGroupValue());
 				break;
-			case EXTENDED_EXCEPTION:
-				object.setErrorMessage(event.getGroupValue());
-				break;
-			case FILE_OF_REQUEST:
+			case FilePattern.GROUP_NAME:
 				object.setFileName(event.getGroupValue());
 				break;
-			case LEVEL_OF_EVENT:
+			case LevelPattern.GROUP_NAME:
 				object.setLogLevel(ELogLevel.valueOf(event.getGroupValue()));
 				break;
-			case LINE_OF_REQUEST:
+			case LinePattern.GROUP_NAME:
 				object.setLine(Long.parseLong(event.getGroupValue().trim()));
 				break;
-			case LOGGER_CLASS_CONVERSION:
-				break;
-			case MARKER:
-				break;
-			case MESSAGE:
+			case MessagePattern.GROUP_NAME_MESSAGE:
 				object.setMessage(event.getGroupValue());
 				break;
-			case METHOD_NAME:
-				break;
-			case NEW_LINE:
-				break;
-			case NO_EXCEPTION:
-				break;
-			case PROPERTY:
-				break;
-			case THREAD_NAME:
+			case ThreadPattern.GROUP_NAME:
 				object.setThreadName(event.getGroupValue());
-				break;
-			case TIME_SINCE_APP_START:
 				break;
 			default:
 				break;

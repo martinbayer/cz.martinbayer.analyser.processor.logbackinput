@@ -4,7 +4,8 @@ import java.io.File;
 
 import cz.martinbayer.analyser.impl.ConcreteE4LogsisLog;
 import cz.martinbayer.analyser.processors.types.InputProcessor;
-import cz.martinbayer.logparser.logback.handler.LogBackHandler;
+import cz.martinbayer.logparser.logback.mobile.handler.LogbackMobileReader;
+import cz.martinbayer.logparser.logic.handler.LogHandler;
 import cz.martinbayer.utils.StringUtils;
 
 public class LogbackInputProcessor extends InputProcessor<ConcreteE4LogsisLog> {
@@ -30,11 +31,11 @@ public class LogbackInputProcessor extends InputProcessor<ConcreteE4LogsisLog> {
 
 	@Override
 	protected void read() {
-		LogBackHandler handler = LogBackHandler.getInstance(logFiles, pattern,
-				"UTF-8");
+
+		LogbackMobileReader reader = new LogbackMobileReader();
+		LogHandler handler = LogHandler.getInstance(logFiles, "UTF-8", reader,
+				null);
 		handler.doParse(parserListener);
-		System.out.println("size:"
-				+ parserListener.getData().getLogRecords().size());
 	}
 
 	/**
@@ -45,7 +46,10 @@ public class LogbackInputProcessor extends InputProcessor<ConcreteE4LogsisLog> {
 	 */
 
 	public final void setLogFiles(File[] logFiles) {
-		this.logFiles = logFiles;
+		if (this.logFiles != logFiles) {
+			logData.clearAll();
+			this.logFiles = logFiles;
+		}
 	}
 
 	public final void setPattern(String pattern) {
